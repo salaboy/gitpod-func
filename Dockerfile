@@ -2,5 +2,10 @@ FROM gitpod/workspace-full
 
 USER root
 
-RUN curl -sSL https://github.com/knative/func/releases/download/knative-v1.8.2/func_linux_amd64 -o /usr/bin/func \
-    && chmod +x /usr/bin/func
+RUN brew tap knative-sandbox/kn-plugins
+RUN brew install func
+
+RUN sudo apt-get install apt-transport-https ca-certificates gnupg -y
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg  add - && apt-get update -y && apt-get install google-cloud-cli -y
+RUN sudo apt-get install -y kubectl 
+RUN sudo apt-get install google-cloud-sdk-gke-gcloud-auth-plugin   
